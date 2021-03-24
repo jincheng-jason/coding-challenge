@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"math"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -51,24 +50,48 @@ func main() {
 
 	json.Unmarshal(byteValue, &ledger)
 
-	for i := 0; i < len(ledger.Data); i++ {
-		fmt.Println("AccountCategory: " + ledger.Data[i].AccountCategory)
-		fmt.Println("AccountCode: " + ledger.Data[i].AccountCode)
-		fmt.Println("AccountCurrency: " + ledger.Data[i].AccountCurrency)
-		fmt.Println("AccountIdentifier: " + ledger.Data[i].AccountIdentifier)
-		fmt.Println("AccountStatus: " + ledger.Data[i].AccountStatus)
-		fmt.Println("ValueType: " + ledger.Data[i].ValueType)
-		fmt.Println("AccountName: " + ledger.Data[i].AccountName)
-		fmt.Println("AccountType: " + ledger.Data[i].AccountType)
-		fmt.Println("AccountTypeBank: " + ledger.Data[i].AccountTypeBank)
-		fmt.Println("SystemAccount: " + ledger.Data[i].SystemAccount)
-		fmt.Println("TotalValue: " + strconv.FormatFloat(ledger.Data[i].TotalValue, 'f', -1, 64))
-		fmt.Println("--------------------")
+	// for i := 0; i < len(ledger.Data); i++ {
+	// 	fmt.Println("AccountCategory: " + ledger.Data[i].AccountCategory)
+	// 	fmt.Println("AccountCode: " + ledger.Data[i].AccountCode)
+	// 	fmt.Println("AccountCurrency: " + ledger.Data[i].AccountCurrency)
+	// 	fmt.Println("AccountIdentifier: " + ledger.Data[i].AccountIdentifier)
+	// 	fmt.Println("AccountStatus: " + ledger.Data[i].AccountStatus)
+	// 	fmt.Println("ValueType: " + ledger.Data[i].ValueType)
+	// 	fmt.Println("AccountName: " + ledger.Data[i].AccountName)
+	// 	fmt.Println("AccountType: " + ledger.Data[i].AccountType)
+	// 	fmt.Println("AccountTypeBank: " + ledger.Data[i].AccountTypeBank)
+	// 	fmt.Println("SystemAccount: " + ledger.Data[i].SystemAccount)
+	// 	fmt.Println("TotalValue: " + strconv.FormatFloat(ledger.Data[i].TotalValue, 'f', -1, 64))
+	// 	fmt.Println("--------------------")
+	// }
+
+	originDatas := ledger.Data
+	datas := make([]interface{}, len(originDatas))
+	for i := range originDatas {
+		datas[i] = originDatas[i]
 	}
 
 	//Revenue
+	//This should be calculated by adding up all the values under total_value where the account_category field is set to revenue
+	revenue := Stream(datas).Filter(func(each interface{}) bool {
+		return each.(Data).AccountCategory == "revenue"
+	}).Reduce(0.0, func(pre interface{}, cur interface{}) interface{} {
+		return pre.(float64) + cur.(Data).TotalValue
+	})
+
+	fmt.Printf("Revenue: %v", revenue)
+	fmt.Println()
 
 	//Expenses
+	//This should be calculated by adding up all the values under total_value where the account_category field is set to expense
+	expense := Stream(datas).Filter(func(each interface{}) bool {
+		return each.(Data).AccountCategory == "expense"
+	}).Reduce(0.0, func(pre interface{}, cur interface{}) interface{} {
+		return pre.(float64) + cur.(Data).TotalValue
+	})
+
+	fmt.Printf("Expenses: %v", expense)
+	fmt.Println()
 
 	//Gross Profit Margin
 
