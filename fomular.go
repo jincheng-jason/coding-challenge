@@ -16,17 +16,17 @@ func CalcExpenses(datas []interface{}) float64 {
 	}).(float64)
 }
 
-func CalcGrossProfitMargin(datas []interface{}, revenue interface{}) float64 {
+func CalcGrossProfitMargin(datas []interface{}, revenue float64) float64 {
 	gross := Stream(datas).Filter(func(each interface{}) bool {
 		return each.(Data).AccountType == "sales" && each.(Data).ValueType == "debit"
 	}).Reduce(0.0, func(pre interface{}, cur interface{}) interface{} {
 		return pre.(float64) + cur.(Data).TotalValue
 	})
-	return gross.(float64) / revenue.(float64)
+	return gross.(float64) / revenue
 }
 
-func CalcNetProfitMargin(revenue interface{}, expense interface{}) float64 {
-	return (revenue.(float64) - expense.(float64)) / revenue.(float64)
+func CalcNetProfitMargin(revenue float64, expense float64) float64 {
+	return (revenue - expense) / revenue
 }
 
 func CalcWorkingCapitalRatio(datas []interface{}) float64 {
