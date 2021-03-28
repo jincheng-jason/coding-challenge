@@ -1,17 +1,18 @@
-package main
+package workers
 
 import (
+	"coding-challenge/formular"
 	"fmt"
 	"github.com/leekchan/accounting"
 	"math"
 )
 
-func PrintResult(formula FormulaType, result float64) {
+func PrintResult(formula formular.FormulaType, result float64) {
 	switch formula {
-	case REVENUE, EXPENSES:
+	case formular.REVENUE, formular.EXPENSES:
 		ac := accounting.Accounting{Symbol: "$", Precision: 3}
 		fmt.Printf("%v: %v \n", formula, ac.FormatMoney(result))
-	case GROSS_PROFIT_MARGIN, NET_PROFIT_MARGIN, WORKING_CAPITAL_RATIO:
+	case formular.GROSS_PROFIT_MARGIN, formular.NET_PROFIT_MARGIN, formular.WORKING_CAPITAL_RATIO:
 		fmt.Printf("%v: %v%% \n", formula, roundTo(result*100, 1))
 	}
 }

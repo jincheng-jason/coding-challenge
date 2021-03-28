@@ -1,4 +1,4 @@
-package main
+package util
 
 type stream struct {
 	list []interface{}

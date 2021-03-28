@@ -1,4 +1,4 @@
-package main
+package formular
 
 type FormulaType string
 
