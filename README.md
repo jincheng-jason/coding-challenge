@@ -6,6 +6,7 @@
 - Used `go mod` for package management, imported 3rd party lib `github.com/leekchan/accounting` for currency formatting.
 - Run with command `go build`, and then `./coding-challenge`
 - Test with command `go test -v ./test `
+- Can also run with `docker build -t coding-challenge .` and then `docker run coding-challenge:latest`
 
 ## Overview
 
