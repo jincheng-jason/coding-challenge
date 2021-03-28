@@ -1,12 +1,6 @@
-package main
+package models
 
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"time"
-)
+import "time"
 
 type Ledger struct {
 	ObjectCategory       string    `json:"object_category"`
@@ -33,31 +27,4 @@ type Data struct {
 	AccountTypeBank   string  `json:"account_type_bank"`
 	SystemAccount     string  `json:"system_account"`
 	TotalValue        float64 `json:"total_value"`
-}
-
-func Produce(ledgers chan<- Ledger, stop *bool) {
-	for !*stop {
-		ledger, err := readFile("data.json")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		ledgers <- ledger
-		time.Sleep(1000 * time.Millisecond)
-	}
-}
-
-func readFile(filePath string) (Ledger, error) {
-	f, err := os.Open(filePath)
-	if err != nil {
-		return Ledger{}, err
-	}
-	defer f.Close()
-	byteValue, _ := ioutil.ReadAll(f)
-	var ledger Ledger
-	jsonErr := json.Unmarshal(byteValue, &ledger)
-	if jsonErr != nil {
-		return Ledger{}, jsonErr
-	}
-	return ledger, nil
 }

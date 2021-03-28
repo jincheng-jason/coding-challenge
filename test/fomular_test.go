@@ -1,12 +1,10 @@
-package main
+package test
 
-import "testing"
-
-func AssertEqual(t *testing.T, x, y interface{}) {
-	if x != y {
-		t.Error("Expected ", y, ", got ", x)
-	}
-}
+import (
+	"coding-challenge/formular"
+	. "coding-challenge/models"
+	"testing"
+)
 
 func TestCalcRevenue(t *testing.T) {
 	data1 := Data{AccountCategory: "revenue", TotalValue: 1}
@@ -15,7 +13,7 @@ func TestCalcRevenue(t *testing.T) {
 	data4 := Data{AccountCategory: "revenue", TotalValue: 1}
 	data5 := Data{AccountCategory: "expense", TotalValue: 1}
 	datas := []interface{}{data1, data2, data3, data4, data5}
-	AssertEqual(t, CalcRevenue(datas), float64(4))
+	AssertEqual(t, formular.CalcRevenue(datas), float64(4))
 }
 
 func TestCalcExpenses(t *testing.T) {
@@ -25,7 +23,7 @@ func TestCalcExpenses(t *testing.T) {
 	data4 := Data{AccountCategory: "expense", TotalValue: 1}
 	data5 := Data{AccountCategory: "revenue", TotalValue: 1}
 	datas := []interface{}{data1, data2, data3, data4, data5}
-	AssertEqual(t, CalcExpenses(datas), float64(4))
+	AssertEqual(t, formular.CalcExpenses(datas), float64(4))
 }
 
 func TestCalcGrossProfitMargin(t *testing.T) {
@@ -35,11 +33,11 @@ func TestCalcGrossProfitMargin(t *testing.T) {
 	data4 := Data{AccountType: "sales", ValueType: "debit", TotalValue: 1}
 	data5 := Data{AccountType: "whatever", ValueType: "whatever", TotalValue: 1}
 	datas := []interface{}{data1, data2, data3, data4, data5}
-	AssertEqual(t, CalcGrossProfitMargin(datas, 8), float64(4)/float64(8))
+	AssertEqual(t, formular.CalcGrossProfitMargin(datas, 8), float64(4)/float64(8))
 }
 
 func TestCalcNetProfitMargin(t *testing.T) {
-	AssertEqual(t, CalcNetProfitMargin(8, 4), (float64(8)-float64(4))/float64(8))
+	AssertEqual(t, formular.CalcNetProfitMargin(8, 4), (float64(8)-float64(4))/float64(8))
 }
 
 func TestCalcWorkingCapitalRatio(t *testing.T) {
@@ -61,5 +59,5 @@ func TestCalcWorkingCapitalRatio(t *testing.T) {
 		assetsSubData1, assetsSubData2, assetsSubData3,
 		liaAddData1, liaAddData2, liaAddData3,
 		liaSubData1, liaSubData2, liaSubData3}
-	AssertEqual(t, CalcWorkingCapitalRatio(datas), (float64((2+2+2)-(1+1+1)))/float64((2+2)-(1+1)))
+	AssertEqual(t, formular.CalcWorkingCapitalRatio(datas), (float64((2+2+2)-(1+1+1)))/float64((2+2)-(1+1)))
 }

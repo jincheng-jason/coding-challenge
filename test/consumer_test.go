@@ -1,6 +1,9 @@
-package main
+package test
 
 import (
+	"coding-challenge/formular"
+	. "coding-challenge/models"
+	"coding-challenge/workers"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -12,7 +15,7 @@ func TestConsume(t *testing.T) {
 	r, w, _ := os.Pipe()
 	os.Stdout = w
 	ledgers := make(chan Ledger, 1)
-	go Consume(ledgers, []FormulaType{REVENUE, EXPENSES, GROSS_PROFIT_MARGIN, NET_PROFIT_MARGIN, WORKING_CAPITAL_RATIO})
+	go workers.Consume(ledgers, []formular.FormulaType{formular.REVENUE, formular.EXPENSES, formular.GROSS_PROFIT_MARGIN, formular.NET_PROFIT_MARGIN, formular.WORKING_CAPITAL_RATIO})
 	ledger := Ledger{Data: []Data{{AccountCategory: "revenue", TotalValue: 10000},
 		{AccountCategory: "expense", TotalValue: 10000},
 		{AccountType: "sales", ValueType: "debit", TotalValue: 1},

@@ -1,6 +1,8 @@
-package main
+package test
 
 import (
+	"coding-challenge/formular"
+	"coding-challenge/workers"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -10,7 +12,7 @@ func TestPrintResult(t *testing.T) {
 	rescueStdout := os.Stdout
 	r, w, _ := os.Pipe()
 	os.Stdout = w
-	PrintResult(REVENUE, 10000)
+	workers.PrintResult(formular.REVENUE, 10000)
 	w.Close()
 	out, _ := ioutil.ReadAll(r)
 	os.Stdout = rescueStdout
@@ -21,7 +23,7 @@ func TestPrintResultWithGROSS_PROFIT_MARGIN(t *testing.T) {
 	rescueStdout := os.Stdout
 	r, w, _ := os.Pipe()
 	os.Stdout = w
-	PrintResult(GROSS_PROFIT_MARGIN, 0.2388)
+	workers.PrintResult(formular.GROSS_PROFIT_MARGIN, 0.2388)
 	w.Close()
 	out, _ := ioutil.ReadAll(r)
 	os.Stdout = rescueStdout

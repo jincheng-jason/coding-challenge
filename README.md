@@ -3,9 +3,9 @@
 ## Solution
 - Implemented with Golang, but really miss Java's stream when writing the calculations so thought maybe we can have a Go version.
 - Used Producer-Consumer model for reading json file and calculating output.
-- Used go mod for package management, imported 3rd party lib github.com/leekchan/accounting for currency formatting.
+- Used `go mod` for package management, imported 3rd party lib `github.com/leekchan/accounting` for currency formatting.
 - Run with command `go build`, and then `./coding-challenge`
-- Test with command `go test`
+- Test with command `go test -v ./test `
 
 ## Overview
 
